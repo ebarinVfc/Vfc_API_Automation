@@ -1,0 +1,30 @@
+curl --location --request POST 'https://qa.xapi.vfc.com/data/v2/consumer/signup' \
+--header 'Content-Type: application/json' \
+--header 'x-transaction-id: 85a5b04f-a042-4684-90b4-3cf46c306cc1' \
+--header 'channel: CS' \
+--header 'siteId: VANS-US' \
+--header 'brand: VANS' \
+--header 'region: NORA' \
+--header 'source: OMS' \
+--header 'locale: en_US' \
+--header 'client_id: 4f655085a6ec4b338786d62922667746' \
+--header 'client_secret: e327F89fA8294bF3A5b174a64f33bA9d' \
+--data-raw '{
+    "firstName": "Test User",
+    "lastName": "YASH",
+    "email": "testdataeapivans@yopmail.com",
+    "password": "Welcome@2023",
+    "phone": "+13633345466",
+    "birthDate": "1991-01-01",
+    "postalCode": "43235",
+    "source": {
+        "acquisitionType": "Registered",
+        "campaignName": "signup_page",
+        "storeAssistant": "1234"
+    },
+    "subscriptions": {
+        "newsletterConsent": false,
+        "loyaltyConsent": true,
+        "smsNotificationConsent": false
+    }
+}'

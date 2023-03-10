@@ -1,0 +1,48 @@
+curl --location 'https://dev.xapi.vfc.com/data/v2/consumer' \
+--header 'x-transaction-id: d2193bbe-3f5a-4582-9861-16f1cf79df69' \
+--header 'channel: CS' \
+--header 'siteId: VANS-US' \
+--header 'brand: VANS' \
+--header 'region: NORA' \
+--header 'source: OMS' \
+--header 'locale: en_US' \
+--header 'client_id: 4f655085a6ec4b338786d62922667746' \
+--header 'client_secret: e327F89fA8294bF3A5b174a64f33bA9d' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "consumerProfile": {
+        "consumerDetails": {
+            "middleName": "qqq",
+            "birthCountry": "USA",
+            "jobTitle": "Salesman",
+            "lastName": "jay",
+            "birthDate": "1999-12-31",
+            "email": "testpostalsdxx@gmail.com",
+            "password": "Tulips_12",
+            "phone": "+12246786543",
+            "source": {
+                "store": "Source Store",
+                "acquisitionType": "Registered"
+            },
+            "subscriptions": [
+                {
+                    "type": "Newsletter",
+                    "optin": true,
+                    "doubleOptin": false,
+                    "channel": "sms",
+                    "recipient": "+12246786543",
+                    "country": "US",
+                    "region": "NORA"
+                }
+            ],
+            "gender": "M",
+            "status": "A"
+        },
+        "context": {
+            "caller": "OMS"
+        },
+        "preferences": {
+            "languageCode": "en_US"
+        }
+    }
+}'

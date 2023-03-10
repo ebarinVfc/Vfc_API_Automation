@@ -1,0 +1,15 @@
+String body= """
+                {
+                "name": "North Face Polar Fleece",
+                "description":
+                "The Men’s Denali Jacket is a true icon on both the street and the summit.",
+                "price":179,
+                "category_id": 3
+                }
+                """;
+
+                  String body = """
+                                {
+                                "id":42
+                                }
+                                """;

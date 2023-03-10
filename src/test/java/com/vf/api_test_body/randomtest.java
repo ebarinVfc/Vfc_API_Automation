@@ -1,7 +1,8 @@
 package com.vf.api_test_body;
 
+
 import com.github.javafaker.Faker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class randomtest {
     @Test

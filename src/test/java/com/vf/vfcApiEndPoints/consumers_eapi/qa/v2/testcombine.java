@@ -1,5 +1,7 @@
 package com.vf.vfcApiEndPoints.consumers_eapi.qa.v2;
 
+
+
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.vf.pojo.Profile;
@@ -14,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+
 
 public class testcombine {
     private static String accessToken;

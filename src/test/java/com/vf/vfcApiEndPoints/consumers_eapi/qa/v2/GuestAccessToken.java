@@ -8,8 +8,11 @@ import static io.restassured.RestAssured.given;
 
 public class GuestAccessToken {
 
-    public static String getAccessTokenTest() {
+    private static String accessToken;
+    private static String cookieHeader;
+    private static String usid;
 
+    static {
         String requestBody = "{\n" +
                 "    \"type\": \"Guest\"\n" +
                 "}";
@@ -24,15 +27,24 @@ public class GuestAccessToken {
         response.then().statusCode(200);
         response.prettyPrint();
 
-        String accessToken = response.jsonPath().getString("accessToken");
+        accessToken = response.jsonPath().getString("accessToken");
+        cookieHeader = response.getCookie("vfa_TBL-US_refresh") + "; " +
+                response.getCookie("vfa_VANS-CA_refresh") + "; " +
+                response.getCookie("vfa_TBL-US_refresh_exp") + "; " +
+                response.getCookie("vfa_VANS-CA_refresh_exp");
+        usid = response.jsonPath().getString("usid");
+    }
 
-
+    public static String getAccessToken() {
         return accessToken;
-
     }
 
-    public static void main(String[] args) {
-        String accessToken = getAccessTokenTest();
-        // use the access token as needed
+    public static String getCookieHeader() {
+        return cookieHeader;
     }
+
+    public static String getUsid() {
+        return usid;
+    }
+
 }

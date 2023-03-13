@@ -3,44 +3,50 @@ package com.vf.vfcApiEndPoints.consumers_eapi.qa.v2;
 import com.vf.vfcApiEndPoints.ApiHeaderConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Test;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 
 public class Sing_In_Post {
 
+    private static String consumerId;
+    private static String consumerEmail;
+
+    @BeforeClass
+    public static void setup() {
+        Sign_Up_Post signUpPost = new Sign_Up_Post();
+        signUpPost.ConsumerSignUp();
+        consumerId = signUpPost.getConsumerId();
+        consumerEmail = signUpPost.getConsumerEmail();
+    }
+
     @Test
     public void testSignInAPI() {
-      //  String accessToken = GuestToken.getAccessToken(); // Call getAccessToken using class name
+        String accessToken = GuestAccessToken.getAccessToken();
+        String cookieHeader = GuestAccessToken.getCookieHeader();
+        String usid = GuestAccessToken.getUsid();
+
         baseURI = ApiHeaderConfig.getBaseURI();
 
-
-        // Build the request body
         String requestBody = "{\n" +
                 "    \"type\": \"Registered\",\n" +
-                "    \"username\": \"{{customerLogin}}\",\n" +
-                "    \"password\": \"Tulips_12\",\n" +
-                "    \"codeChallenge\": \"{{code_challenge}}\"\n" +
+                "    \"username\": \"" + consumerEmail + "\",\n" +
+                "    \"password\": \"Vfc2023$\",\n" +
+                "    \"codeChallenge\": \"JQLbXm0C4PD2G3zWVmNT9wCWeV6eTKHuRoYNzomSKfI\"\n" +
                 "}";
 
-        // Send the POST request with headers and body
         Response response = given()
-
                 .headers(ApiHeaderConfig.getHeaders())
-             //   .header("Authorization", "Bearer " + accessToken)
+                .header("Cookie", cookieHeader)
+                .header("x-usid", usid)
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .queryParam("captchaResponse", "f3b1eddd-9ca2-4e59-820b-b67196a64d04")
                 .post("/api/consumers/v2/auth/signin");
 
-        // Verify the response status code is 200
         response.then().statusCode(200);
         response.prettyPrint();
-
-        // Perform other verifications on the response
-        // ...
     }
-
-
 }

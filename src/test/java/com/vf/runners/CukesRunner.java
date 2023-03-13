@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/vf/step_defi",
         dryRun = false,
-        tags = "@api"
+        tags = "@token"
 
 
 

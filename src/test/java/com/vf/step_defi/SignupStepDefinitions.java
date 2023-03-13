@@ -1,37 +1,43 @@
-package com.vf.vfcApiEndPoints.consumers_eapi.qa.v2;
+package com.vf.step_defi;
 
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.vf.pojo.Profile;
 import com.vf.vfcApiEndPoints.ApiHeaderConfig;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
 
-public class Sign_Up_Post {
+public class SignupStepDefinitions {
 
     private static String accessToken;
     private static String cookieHeader;
     private static String usid;
     private static String consumerId;
     private static String consumerEmail;
+    private static Response signUpResponse;
+    private Response response;
 
-    @Test
-    public void ConsumerSignUp() {
+    @Given("I have a guest token")
+    public void iAmAGuestUser() {
         baseURI = ApiHeaderConfig.getBaseURI();
 
         String requestBody = "{\n" +
                 "    \"type\": \"Guest\"\n" +
                 "}";
 
-        Response response = given()
+        response = given()
                 .headers(ApiHeaderConfig.getHeaders())
                 .contentType(ContentType.JSON)
                 .body(requestBody)
@@ -46,7 +52,10 @@ public class Sign_Up_Post {
                 response.getCookie("vfa_TBL-US_refresh_exp") + "; " +
                 response.getCookie("vfa_VANS-CA_refresh_exp");
         usid = response.jsonPath().getString("usid");
+    }
 
+    @When("I sign up with a new consumer email and password")
+    public void iSignUpWithANewConsumerEmailAndPassword() {
         Map<String, String> headers = ApiHeaderConfig.getHeaders();
         headers.put("Cookie", cookieHeader);
         headers.put("x-usid", usid);
@@ -73,7 +82,7 @@ public class Sign_Up_Post {
         request.setSubscriptions(subscriptions);
 
         String json = new Gson().toJson(request);
-        Response signUpResponse = given().accept(ContentType.JSON)
+        signUpResponse = given().accept(ContentType.JSON)
                 .headers(headers)
                 .contentType("application/json")
                 .body(json)
@@ -87,23 +96,22 @@ public class Sign_Up_Post {
         System.out.println("Consumer ID is:" + consumerId + "\nResponse Code is: " + signUpResponse.getStatusCode() + "\nConsumer Email: " + consumerEmail);
     }
 
-    public static String getAccessToken() {
-        return accessToken;
+    @Then("I should receive a successful response code")
+    public void iShouldReceiveASuccessfulResponseCode() {
+        assertEquals(201, signUpResponse.getStatusCode());
     }
 
-    public String getCookieHeader() {
-        return cookieHeader;
+    @Then("the consumer should be created successfully")
+    public void theConsumerShouldBeCreatedSuccessfully() {
+        String consumerIdFromResponse = signUpResponse.jsonPath().getString("consumerId");
+        assertEquals(consumerId, consumerIdFromResponse);
     }
 
-    public String getUsid() {
-        return usid;
+    @Then("I receive a successful signup response with the consumer ID and email")
+    public void iReceiveASuccessfulSignupResponseWithTheConsumerIDAndEmail() {
+        String consumerId = response.jsonPath().getString("consumerId");
+        Assert.assertNotNull(consumerId);
+        Assert.assertNotEquals("", consumerId);
+    }
     }
 
-    public static String getConsumerId() {
-        return consumerId;
-    }
-
-    public static String getConsumerEmail() {
-        return consumerEmail;
-    }
-}

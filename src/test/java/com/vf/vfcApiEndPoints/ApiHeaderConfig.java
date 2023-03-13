@@ -13,7 +13,7 @@ public class ApiHeaderConfig {
         Map<String, String> headers = new HashMap<>();
 
         headers.put("siteId", "TBL-US");
-        headers.put("x-transaction-id", "A v4 style guid");
+        headers.put("x-transaction-id", "fa2720d6-b922-49c1-9b05-3440cc4a8e7c");
         headers.put("locale", "en_US");
         headers.put("channel", "ECOMM");
         headers.put("source", "ECOM15");

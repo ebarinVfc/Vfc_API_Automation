@@ -25,6 +25,11 @@ public class Profile {
     private Boolean isTemporaryPassword;
     private String country;
     private  String homePhone;
+    private  String codeChallenge;
+    private String type;
+    private String username;
+
+
 
 
 }

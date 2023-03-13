@@ -20,6 +20,8 @@ public class Sign_In_Post {
     private static String accessToken;
     private static String cookieHeader;
     private static String usid;
+    private static String codeChallenge;
+
 
     @Test
     public void testSignInAPI() {
@@ -42,6 +44,7 @@ public class Sign_In_Post {
         response.prettyPrint();
 
         accessToken = response.jsonPath().getString("accessToken");
+        codeChallenge = response.jsonPath().getString("codeChallenge");
         cookieHeader = response.getCookie("vfa_TBL-US_access")+accessToken+"; "+
                 response.getCookie("vfa_TBL-US_refresh") +"; " +
                 response.getCookie("vfa_TBL-US_access_exp") + "; " +
@@ -59,7 +62,7 @@ public class Sign_In_Post {
         request.setType("Registered");
         request.setUsername(consumerEmail);
         request.setPassword("Vfc2023$");
-        request.setCodeChallenge("8rTlWWK7BElbcsrEEXU3ur2iKMukNosi_bK355wRgLM");
+        request.setCodeChallenge(codeChallenge);
 
         String json = new Gson().toJson(request);
         Response signInResponse = given().accept(ContentType.JSON)

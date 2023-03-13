@@ -42,10 +42,12 @@ public class Sign_In_Post {
         response.prettyPrint();
 
         accessToken = response.jsonPath().getString("accessToken");
-        cookieHeader = response.getCookie("vfa_TBL-US_refresh") + "; " +
-                response.getCookie("vfa_VANS-CA_refresh") + "; " +
-                response.getCookie("vfa_TBL-US_refresh_exp") + "; " +
-                response.getCookie("vfa_VANS-CA_refresh_exp");
+        cookieHeader = response.getCookie("vfa_TBL-US_access")+accessToken+"; "+
+                response.getCookie("vfa_TBL-US_refresh") +"; " +
+                response.getCookie("vfa_TBL-US_access_exp") + "; " +
+                       response.getCookie("vfa_TBL-US_refresh_exp") ;
+        System.out.println(cookieHeader);
+
         usid = response.jsonPath().getString("usid");
 
         Map<String, String> headers = ApiHeaderConfig.getHeaders();
